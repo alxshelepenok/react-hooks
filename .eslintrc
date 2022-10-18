@@ -1,0 +1,64 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "jasmine": true
+  },
+  "extends": [
+    "@alxshelepenok/eslint-config",
+    "plugin:import/typescript",
+    "plugin:import/errors",
+    "airbnb-typescript",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "import",
+    "react",
+    "@typescript-eslint",
+    "simple-import-sort"
+  ],
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "internal/**/*.ts",
+          "**/test.ts",
+          "**/*.test.ts",
+          "**/test.tsx",
+          "**/tests.tsx"
+        ]
+      }
+    ],
+    "import/no-internal-modules": ["off"],
+    "@typescript-eslint/no-use-before-define": ["off"],
+    "@typescript-eslint/quotes": ["error", "double"],
+    "@typescript-eslint/naming-convention": ["error", {
+      "format": ["camelCase", "UPPER_CASE", "PascalCase"],
+      "selector": "parameter",
+      "leadingUnderscore": "allow"
+    }],
+    "sort-keys": ["off"],
+    "sort-imports": ["off"],
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^(react|path)"],
+          ["^\\u0000"],
+          ["^[^. ]"],
+          ["^\\."]
+        ]
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}
