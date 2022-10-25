@@ -8,6 +8,11 @@ const pkg = require("../../package.json");
 const LIBRARY_NAME = "react-hooks";
 
 export default {
+  external: ["react", "react-dom"],
+  globals: {
+    react: "React",
+    "react-dom": "ReactDOM",
+  },
   input: "src/index.ts",
   output: [
     { file: pkg.main, format: "umd", name: LIBRARY_NAME, sourcemap: true },
