@@ -15,6 +15,10 @@
     {
       "packageNames": ["react", "react-dom"],
       "groupName": "react"
+    },
+    {
+      "packagePatterns": ["^rollup", "^@rollup"],
+      "groupName": "rollup"
     }
   ],
   "labels": ["renovate"],
