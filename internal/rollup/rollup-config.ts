@@ -9,14 +9,28 @@ const LIBRARY_NAME = "react-hooks";
 
 export default {
   external: ["react", "react-dom"],
-  globals: {
-    react: "React",
-    "react-dom": "ReactDOM",
-  },
   input: "src/index.ts",
   output: [
-    { file: pkg.main, format: "umd", name: LIBRARY_NAME, sourcemap: true },
-    { file: pkg.module, format: "es", sourcemap: true },
+    {
+      file: pkg.main,
+      format: "umd",
+      globals: {
+        react: "React",
+        "react-dom": "ReactDOM",
+      },
+      name: LIBRARY_NAME,
+      sourcemap: true,
+    },
+    {
+      file: pkg.module,
+      format: "es",
+      globals: {
+        react: "React",
+        "react-dom": "ReactDOM",
+      },
+      name: LIBRARY_NAME,
+      sourcemap: true,
+    },
   ],
   plugins: [json(), typescript({ module: "esnext" }), commonjs(), resolve()],
   watch: { include: "src/**" },
