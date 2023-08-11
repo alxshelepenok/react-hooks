@@ -20,7 +20,7 @@
     "format": "npm run format:ts",
     "format:ts": "eslint . --ext .tsx,.ts --fix && prettier --write .",
     "lint": "npm run lint:ts",
-    "lint:commit": "commitlint --edit",
+    "lint:commit": "commitlint",
     "lint:staged": "lint-staged",
     "lint:ts": "eslint . --ext .tsx,.ts && prettier --check .",
     "prepare": "husky install",
@@ -34,7 +34,7 @@
     ]
   },
   "lint-staged": {
-    "*.{tsx?}": [
+    "*.tsx?": [
       "npm run format:ts"
     ]
   },
