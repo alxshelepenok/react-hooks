@@ -25,7 +25,7 @@
     "lint:ts": "eslint . --ext .tsx,.ts && prettier --check .",
     "prepare": "husky install",
     "semantic-release": "semantic-release",
-    "start": "rollup -c internal/rollup/config.ts -w",
+    "start": "rollup -c internal/rollup/rollup-config.ts -w",
     "test": "jest --runInBand --passWithNoTests --config internal/testing/jest-config.ts"
   },
   "commitlint": {

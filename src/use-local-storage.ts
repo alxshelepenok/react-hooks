@@ -21,11 +21,22 @@ const parseJSON = <T>(value: string | null): T | undefined => {
   try {
     return value === "undefined" ? undefined : JSON.parse(value ?? "");
   } catch {
+    console.warn("Unable to parse value:", value);
     return undefined;
   }
 };
 
-const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T>] => {
+interface UseLocalStorageOptions<T> {
+  raw?: boolean;
+  serializer?: (value: T) => string;
+  deserializer?: (value: string) => T;
+}
+
+const useLocalStorage = <T>(
+  key: string,
+  initialValue: T,
+  options: UseLocalStorageOptions<T> = {},
+): [T, SetValue<T>] => {
   const readValue = useCallback((): T => {
     if (typeof window === "undefined") {
       return initialValue;
@@ -33,24 +44,46 @@ const useLocalStorage = <T>(key: string, initialValue: T): [T, SetValue<T>] => {
 
     try {
       const item = window.localStorage.getItem(key);
+
+      if (options?.raw) {
+        return item as unknown as T;
+      }
+
+      if (options?.deserializer) {
+        return item ? options.deserializer(item) : initialValue;
+      }
+
       return item ? (parseJSON(item) as T) : initialValue;
     } catch (error) {
+      console.warn(`Unable to get value for key "${key}":`, error);
       return initialValue;
     }
-  }, [initialValue, key]);
+  }, [initialValue, key, options]);
 
   const [storedValue, setStoredValue] = useState<T>(readValue);
 
   const setValue: SetValue<T> = useEventCallback(value => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     try {
       const newValue = value instanceof Function ? value(storedValue) : value;
 
-      window.localStorage.setItem(key, JSON.stringify(newValue));
+      if (options?.raw) {
+        window.localStorage.setItem(key, newValue as unknown as string);
+      } else if (options?.serializer) {
+        window.localStorage.setItem(key, options.serializer(newValue));
+      } else {
+        window.localStorage.setItem(key, JSON.stringify(newValue));
+      }
 
       setStoredValue(newValue);
 
       window.dispatchEvent(new Event("local-storage"));
-    } catch (error) {}
+    } catch (error) {
+      console.warn(`Unable to store value for key "${key}":`, error);
+    }
   });
 
   useEffect(() => {
