@@ -6,7 +6,7 @@ A set of reusable react hooks.
 
 The MIT License (MIT)
 
-Copyright (c) 2025 Alexander Shelepenok
+Copyright (c) 2026 Alex Shelepenok
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
